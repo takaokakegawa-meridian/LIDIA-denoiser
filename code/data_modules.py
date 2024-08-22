@@ -38,7 +38,7 @@ class ImageDataSet(data.Dataset):
 
 def load_image_from_file(in_path):
     transform = transforms.Compose([transforms.ToTensor(), ShiftImageValues()])
-    image_c = np.array(imageio.imread(in_path))
+    image_c = np.array(imageio.imread(in_path))[:,:,0]
     if len(image_c.shape) < 3:
         image_c = np.expand_dims(image_c, axis=2)
     image_c = transform(image_c)
