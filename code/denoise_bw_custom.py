@@ -59,11 +59,14 @@ def denoise_bw_func():
     nl_denoiser.patch_denoise_net.load_state_dict(model_state0['state_dict'])
 
     filenames = [f for f in os.listdir(opt.in_path) if f.endswith(".png")]
-
+    print("type(nl_denoiser):", type(nl_denoiser))
     for filename in filenames:
         start = time.time()
         test_image_c = load_image_from_file(os.path.join(opt.in_path, filename))
+        print("test_image_c.shape:", test_image_c.shape)
         test_image_dn = process_image(nl_denoiser, test_image_c, opt.max_chunk)
+        print("test_image_dn.shape:", test_image_dn.shape)
+        exit()
         end = time.time()
         test_image_dn = test_image_dn.clamp(-1, 1).cpu()
         psnr_dn = -10 * math.log10(criterion(test_image_dn / 2, test_image_c / 2).item())
